@@ -23,10 +23,10 @@ const Home = () => {
     setLoading(true);
 
     try {
-      // const response = await axios.get(
-      //   "https://image-generator-backend-qxys.onrender.com/api/v1/get"
-      // );
-      const response = await axios.get("http://localhost:8080/api/v1/get");
+      const response = await axios.get(
+        "https://image-generator-backend-qxys.onrender.com/api/v1/get"
+      );
+      // const response = await axios.get("http://localhost:8080/api/v1/get");
 
       if (response.status === 200) {
         setAllPosts(response.data.data.reverse());
