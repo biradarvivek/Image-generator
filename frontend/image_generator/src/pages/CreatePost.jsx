@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { preview } from "../assets";
 import { getRandomPrompt } from "../utils";
@@ -63,9 +63,10 @@ const CreatePost = () => {
     if (form.prompt && form.photo) {
       setLoading(true);
       try {
-        // const response = await fetch("http://localhost:8080/api/v1/post", {
         const response = await fetch(
           "https://image-generator-backend-kkh8.onrender.com/api/v1/post",
+          // "http://localhost:8080/api/v1/post",
+
           {
             method: "POST",
             headers: {
@@ -76,10 +77,8 @@ const CreatePost = () => {
         );
 
         if (response.ok) {
-          const result = await response.json();
           alert("Success");
           navigate("/");
-          fetchPosts();
         } else {
           console.error("Failed to create post:", response.statusText);
         }
@@ -92,33 +91,6 @@ const CreatePost = () => {
       alert("Please generate an image with proper details.");
     }
   };
-
-  const fetchPosts = async () => {
-    try {
-      const response = await fetch(
-        "https://image-generator-backend-kkh8.onrender.com/api/v1/post",
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      if (response.ok) {
-        const result = await response.json();
-      } else {
-        console.error("Failed to fetch posts:", response.statusText);
-      }
-    } catch (error) {
-      console.error("Error fetching posts:", error);
-      alert(error);
-    }
-  };
-
-  useEffect(() => {
-    fetchPosts();
-  }, []);
 
   return (
     <section className="max-w-7xl mx-auto">
@@ -188,10 +160,6 @@ const CreatePost = () => {
         </div>
 
         <div className="mt-10">
-          <p className="mt-2 text-[#666e75] text-[14px]">
-            ** Once you have created the image you want, you can share it with
-            others in the community **
-          </p>
           <button
             type="submit"
             className="mt-3 text-white bg-[#6469ff] font-medium rounded-md text-sm w-full sm:w-auto px-5 py-2.5 text-center"

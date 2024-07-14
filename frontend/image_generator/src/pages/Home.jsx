@@ -23,7 +23,9 @@ const Home = () => {
 
     try {
       const response = await fetch(
-        "https://image-generator-backend-kkh8.onrender.com/api/v1/post",
+        "https://image-generator-backend-kkh8.onrender.com/api/v1/posts",
+        // "http://localhost:8080/api/v1/posts",
+
         {
           method: "GET",
           headers: {
