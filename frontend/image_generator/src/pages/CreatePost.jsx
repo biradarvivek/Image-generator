@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import { preview } from "../assets";
 import { getRandomPrompt } from "../utils";
 import FormField from "../components/FormField";
@@ -29,19 +30,14 @@ const CreatePost = () => {
     if (form.prompt) {
       try {
         setGeneratingImg(true);
-        const response = await fetch(
+        const response = await axios.get(
           `https://lexica.art/api/v1/search?q=${encodeURIComponent(
             form.prompt
           )}`
         );
 
-        if (!response.ok) {
-          throw new Error("Failed to fetch image from Lexica");
-        }
-
-        const data = await response.json();
-        if (data.images && data.images.length > 0) {
-          const image = data.images[0];
+        if (response.data.images && response.data.images.length > 0) {
+          const image = response.data.images[0];
           setForm({ ...form, photo: image.src });
         } else {
           throw new Error("No images found");
@@ -63,20 +59,20 @@ const CreatePost = () => {
     if (form.prompt && form.photo) {
       setLoading(true);
       try {
-        const response = await fetch(
-          "https://image-generator-backend-qxys.onrender.com/api/v1/post",
-          // "http://localhost:8080/api/v1/post",
+        const response = await axios.post(
+          // "https://image-generator-backend-qxys.onrender.com/api/v1/post",
 
+          "http://localhost:8080/api/v1/post",
+
+          form,
           {
-            method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ ...form }),
           }
         );
 
-        if (response.ok) {
+        if (response.status === 200) {
           alert("Success");
           navigate("/");
         } else {

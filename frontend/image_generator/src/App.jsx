@@ -8,6 +8,7 @@ const App = () => {
     <BrowserRouter>
       <header className="w-full flex justify-between items-center sm:px-8 px-4 py-4 border-b bg-orange-200 border-b-[#e6ebf4]">
         <Link to="/">
+          {" "}
           <img
             className="w-20 object-contain"
             src="https://static-00.iconduck.com/assets.00/openai-icon-2021x2048-4rpe5x7n.png"

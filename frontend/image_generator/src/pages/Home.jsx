@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import Loader from "../components/Loader";
 import Card from "../components/Card";
 import FormField from "../components/FormField";
@@ -22,26 +23,19 @@ const Home = () => {
     setLoading(true);
 
     try {
-      const response = await fetch(
-        "https://image-generator-backend-qxys.onrender.com/api/v1/get",
-        // "http://localhost:8080/api/v1/get",
+      // const response = await axios.get(
+      //   "https://image-generator-backend-qxys.onrender.com/api/v1/get"
+      // );
+      const response = await axios.get("http://localhost:8080/api/v1/get");
 
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      if (response.ok) {
-        const result = await response.json();
-        setAllPosts(result.data.reverse());
+      if (response.status === 200) {
+        setAllPosts(response.data.data.reverse());
       } else {
         console.error("Failed to fetch posts:", response.statusText);
       }
     } catch (error) {
-      console.error("Error fetching posts:", error);
-      alert(error);
+      console.error("Error fetching posts:", error.message);
+      alert(error.message);
     } finally {
       setLoading(false);
     }
